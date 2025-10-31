@@ -6,13 +6,10 @@ interface SectionLayoutProps {
   height?: string;
 }
 
-const NewsBanner: React.FC<SectionLayoutProps> = ({
-
-  height = "",
-}) => {
+const NewsBanner: React.FC<SectionLayoutProps> = () => {
   return (
-    <section className="p-4">
-      <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4 ${height}`}>
+    <section className="container mx-auto p-4">
+      <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4`}>
         {/* COL 1 */}
         <div className="flex items-center justify-center bg-blue-200 rounded-lg relative overflow-hidden">
           <article className="min-w-full">

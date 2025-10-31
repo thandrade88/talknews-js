@@ -13,7 +13,7 @@ type SectionDoc = {
   color?: string | null;
 };
 
-export default async function Navigation({ locale }: { locale: string }) {
+export default async function Navigation({ locale, extraClasses }: { locale: string, extraClasses?: string }) {
   
   const sections: SectionDoc[] = await client.fetch(
     `*[_type == "section" && coalesce(showInNavigation, true) == true]
@@ -37,12 +37,12 @@ export default async function Navigation({ locale }: { locale: string }) {
 
   return (
     <nav aria-label="Main">
-      <ul className="flex gap-4">
+      <ul className={`flex gap-4 ${extraClasses}`}>
         {sections
           .filter((s) => Boolean(s.slug))
           .map((s) => (
             <li key={s._id}>
-              <a href={`/${s.slug}`} className='text-gray-600 hover:text-gray-900'>{getTitle(s.title ?? [])}</a>
+              <Link href={`/${s.slug}`} className='text-gray-600 hover:text-gray-900'>{getTitle(s.title ?? [])}</Link>
             </li>
           ))}
       </ul>
