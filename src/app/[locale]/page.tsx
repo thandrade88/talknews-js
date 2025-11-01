@@ -1,35 +1,6 @@
 import NewsBanner from "@/components/NewsBanner";
-import React from "react";
-
-interface GridSectionProps {
-  title: string;
-  cols: number;
-  items: string[];
-  color?: string;
-}
-
-const GridSection: React.FC<GridSectionProps> = ({
-  title,
-  cols,
-  items,
-  color = "bg-green-200",
-}) => {
-  return (
-    <>
-      <h2 className="text-xl font-semibold mb-3">{title}</h2>
-      <div className={`grid grid-cols-1 md:grid-cols-${cols} gap-4`}>
-        {items.map((label, index) => (
-          <div
-            key={index}
-            className={`flex items-center justify-center ${color} rounded-lg aspect-video`}
-          >
-            {label}
-          </div>
-        ))}
-      </div>
-    </>
-  );
-};
+import GridSection from "@/components/GridSection";
+import Card from "@/components/Card";
 
 export default function SectionPage({ params }: { params: { locale: string } }) {
   return (
@@ -43,6 +14,7 @@ export default function SectionPage({ params }: { params: { locale: string } }) 
           title="Notícias"
           cols={3}
           items={["1col", "2col", "3col", "4col", "5col", "6col"]}
+          color="bg-green-200"
         />
       </section>
 
@@ -52,6 +24,7 @@ export default function SectionPage({ params }: { params: { locale: string } }) 
           title="Trabalho"
           cols={4}
           items={["1col", "2col", "3col", "4col"]}
+          color="bg-blue-200"
         />
       </section>
 
@@ -66,12 +39,12 @@ export default function SectionPage({ params }: { params: { locale: string } }) 
             <div key={i} className="col-span-1">
               <h2 className="text-xl font-semibold mb-3">{col.title}</h2>
               {[1, 2, 3, 4].map((n) => (
-                <div
+                <Card
                   key={n}
-                  className={`flex items-center justify-center ${col.color} rounded-lg w-full mb-4 h-24`}
-                >
-                  {n}
-                </div>
+                  article={{ title: n.toString(), section: col.title }}
+                  variant="horizontal"
+                  className="mb-4"
+                />
               ))}
             </div>
           ))}
@@ -89,12 +62,10 @@ export default function SectionPage({ params }: { params: { locale: string } }) 
               <h2 className="text-xl font-semibold mb-3">{col.title}</h2>
               <div className="grid grid-cols-2 gap-4">
                 {["1col", "2col"].map((label, index) => (
-                  <div
+                  <Card
                     key={index}
-                    className="flex items-center justify-center bg-green-200 rounded-lg aspect-video"
-                  >
-                    {label}
-                  </div>
+                    article={{ title: label, section: col.title }}
+                  />
                 ))}
               </div>
             </div>
@@ -108,9 +79,10 @@ export default function SectionPage({ params }: { params: { locale: string } }) 
           title="Podcasts"
           cols={4}
           items={["1col", "2col", "3col", "4col"]}
+          color="bg-red-200"
         />
       </section>
-      
+
     </main>
   );
 }

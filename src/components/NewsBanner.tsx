@@ -6,7 +6,7 @@ interface SectionLayoutProps {
   height?: string;
 }
 
-const NewsBanner: React.FC<SectionLayoutProps> = () => {
+export default function NewsBanner() {
   return (
     <section className="container mx-auto p-4">
       <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4`}>
@@ -74,4 +74,4 @@ const NewsBanner: React.FC<SectionLayoutProps> = () => {
   );
 };
 
-export default NewsBanner;
+

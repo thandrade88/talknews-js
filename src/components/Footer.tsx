@@ -1,7 +1,32 @@
-import Link from 'next/link'
-import Navigation from './Navigation'
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Navigation from './Navigation';
+import { ArrowUp } from 'lucide-react';
 
 export default function Footer({ locale }: { locale: string }) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
   return (
     <footer className="bg-gray-50 border-t">
 
@@ -36,6 +61,18 @@ export default function Footer({ locale }: { locale: string }) {
         </div>
 
       </div>
+      
+      {/* Go to Top Button */}
+      <button
+        type="button"
+        onClick={scrollToTop}
+        className={`fixed bottom-6 right-6 p-3 bg-gray-800 text-white rounded-full shadow-lg transition-all duration-300 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        } hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800`}
+        aria-label="Go to top"
+      >
+        <ArrowUp size={20} />
+      </button>
     </footer>
   )
 }

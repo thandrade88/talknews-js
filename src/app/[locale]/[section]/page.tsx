@@ -1,35 +1,6 @@
-import React from "react";
 import SectionBanner from "@/components/SectionBanner";
-
-interface GridSectionProps {
-  title: string;
-  cols: number;
-  items: string[];
-  color?: string;
-}
-
-const GridSection: React.FC<GridSectionProps> = ({
-  title,
-  cols,
-  items,
-  color = "bg-green-200",
-}) => {
-  return (
-    <>
-      {title && <h2 className="text-xl font-semibold mb-3">{title}</h2>}
-      <div className={`grid grid-cols-1 md:grid-cols-${cols} gap-4`}>
-        {items.map((label, index) => (
-          <div
-            key={index}
-            className={`flex items-center justify-center ${color} rounded-lg aspect-video`}
-          >
-            {label}
-          </div>
-        ))}
-      </div>
-    </>
-  );
-};
+import GridSection from "@/components/GridSection";
+import Card from "@/components/Card";
 
 export default async function SectionPage({ params }: { params: { section: string, locale: string } }) {
 
@@ -56,12 +27,12 @@ export default async function SectionPage({ params }: { params: { section: strin
           ].map((col, i) => (
             <div key={i} className="col-span-1">
               {[1, 2, 3].map((n) => (
-                <div
+                <Card
                   key={n}
-                  className={`flex items-center justify-center ${col.color} rounded-lg w-full h-50 mb-4`}
-                >
-                  {n}
-                </div>
+                  article={{ title: n.toString(), section: col.title }}
+                  variant="horizontal"
+                  className="mb-4"
+                />
               ))}
             </div>
           ))}
