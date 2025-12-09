@@ -1,18 +1,7 @@
-import React from "react";
-
-interface SectionLayoutProps {
-  col1Content?: React.ReactNode;
-  col2Content?: React.ReactNode[];
-  height?: string;
-}
-
-const NewsBanner: React.FC<SectionLayoutProps> = ({
-
-  height = "",
-}) => {
+export default function NewsBanner() {
   return (
-    <section className="p-4">
-      <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4 ${height}`}>
+    <section className="container mx-auto p-4">
+      <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4`}>
         {/* COL 1 */}
         <div className="flex items-center justify-center bg-blue-200 rounded-lg relative overflow-hidden">
           <article className="min-w-full">
@@ -77,4 +66,4 @@ const NewsBanner: React.FC<SectionLayoutProps> = ({
   );
 };
 
-export default NewsBanner;
+

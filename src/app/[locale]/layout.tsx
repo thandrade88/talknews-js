@@ -5,8 +5,10 @@ import {routing} from '@/i18n/routing';
 import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
 import Header from '@/components/Header';
-import F from '@/components/Header';
+import Footer from '@/components/Footer';
 import "./../../styles/globals.css";
+import { client } from '@/lib/sanity.client';
+import { getArticles } from '@/lib/queries';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,16 +37,27 @@ export default async function LocaleLayout({children, params}: Props) {
     notFound();
   }
 
+  const sections = await client.fetch(
+    `*[_type == "section" && coalesce(showInNavigation, true) == true]
+      | order(coalesce(order, 0) asc){
+        _id,
+        "slug": slug.current,
+        title,
+        color
+      }`
+  );
+
+  const articles = await getArticles();
   const messages = await getMessages();
 
   return (
     <html lang={locale}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Header locale={locale} />
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <Header locale={locale} sections={sections} />
           {children}
+          <Footer locale={locale} sections={sections}/>
         </NextIntlClientProvider>
-        <Footer />
       </body>
     </html>
   );
