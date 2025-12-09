@@ -1,4 +1,6 @@
-import {client} from '@/lib/sanity.client';
+'use client';
+
+
 import Link from 'next/link';
 
 type IntlString = {
@@ -13,17 +15,9 @@ type SectionDoc = {
   color?: string | null;
 };
 
-export default async function Navigation({ locale, extraClasses }: { locale: string, extraClasses?: string }) {
-  
-  const sections: SectionDoc[] = await client.fetch(
-    `*[_type == "section" && coalesce(showInNavigation, true) == true]
-      | order(coalesce(order, 0) asc){
-        _id,
-        "slug": slug.current,
-        title,
-        color
-      }`
-  );
+export default function Navigation({ locale, extraClasses, sections }: { locale: string, extraClasses?: string, sections: SectionDoc[] }) {
+
+ 
 
   const getTitle = (titleArr: IntlString[] | null | undefined) => {
     if (!titleArr || titleArr.length === 0) return '(no title)';
@@ -38,7 +32,7 @@ export default async function Navigation({ locale, extraClasses }: { locale: str
   return (
     <nav aria-label="Main">
       <ul className={`flex gap-4 ${extraClasses}`}>
-        {sections
+        {sections 
           .filter((s) => Boolean(s.slug))
           .map((s) => (
             <li key={s._id}>

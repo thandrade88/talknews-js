@@ -7,23 +7,22 @@ interface SectionLayoutProps {
 }
 
 const SectionBanner: React.FC<SectionLayoutProps> = ({
-  image = undefined,
+  image = "",
   section = "",
   locale = ""
 }) => {
   return (
     <section className="p-4">
-      <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4`}>
+      
 
-        <div className="relative h-full">
-          <img
-            src={image || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image"%3E%3Crect x="3" y="3" width="18" height="18" rx="2" ry="2"/%3E%3Ccircle cx="8.5" cy="8.5" r="1.5"/%3E%3C/svg>'}
-            alt="Image placeholder"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+      
+        <div className="container mx-auto relative h-full col-span-1 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${image !== "" ? image : 'https://placehold.co/600x400'})` }}>
+          <div className="absolute inset-0 w-full h-full bg-black opacity-50"></div>
+          <div className="px-4 py-8 h-full">
+            <h1 className="text-4xl font-bold text-white text-center">{section}</h1>
+          </div>
         </div>
 
-      </div>
     </section>
   );
 };

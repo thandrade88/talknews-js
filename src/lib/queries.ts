@@ -12,8 +12,8 @@ export async function getNavigationSections(locale: string = 'pt-BR') {
   return sections
 }
 
-export async function getPosts(locale: string = 'pt-BR', section?: string) {
-  const query = `*[_type == "post" ${section ? `&& section->slug.current == "${section}"` : ''}] | order(publishedAt desc) {
+export async function getArticles(locale: string = 'pt-BR', section?: string) {
+  const query = `*[_type == "article" ${section ? `&& section->slug.current == "${section}"` : ''}] | order(publishedAt desc) {
     _id,
     title,
     slug,

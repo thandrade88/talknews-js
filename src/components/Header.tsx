@@ -1,7 +1,10 @@
 import Navigation from './Navigation'
 import Link from 'next/link'
 
-export default function Header({ locale }: { locale: string }) {
+  
+
+export default async function Header({ locale, sections }: { locale: string, sections: any[] }) {
+
   return (
     <header className="bg-white shadow-sm">
       <div className="container mx-auto">
@@ -16,7 +19,7 @@ export default function Header({ locale }: { locale: string }) {
           </Link>
 
           {/* Navigation */}
-          <Navigation locale={locale} />
+          <Navigation locale={locale} sections={sections || []} />
 
           {/* Language Switcher */}
           <div className="flex gap-4">

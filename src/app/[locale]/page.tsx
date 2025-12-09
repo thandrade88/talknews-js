@@ -1,8 +1,39 @@
 import NewsBanner from "@/components/NewsBanner";
 import GridSection from "@/components/GridSection";
 import Card from "@/components/Card";
+import { getArticles } from "@/lib/queries";
 
-export default function SectionPage({ params }: { params: { locale: string } }) {
+export default async function SectionPage({ params }: { params: { locale: string } }) {
+
+  const { locale } = await params;
+  const articles = await getArticles(locale);
+
+  function getLocalizedValue(array: any[], locale: string) {
+    if (!Array.isArray(array)) return "";
+  
+    // 1. Try exact match
+    const match = array.find(item => item._key === locale);
+    if (match) return match.value;
+  
+    // 2. Try language-only match (e.g. "pt" from "pt-BR")
+    const short = locale?.split("-")[0];
+    const shortMatch = array.find(item => item._key.startsWith(short));
+    if (shortMatch) return shortMatch.value;
+  
+    // 3. Fallback to first available value
+    return array[0]?.value || "";
+  }
+
+  const articles_sanitized = articles.map((article: any) => ({
+    ...article,
+    slug: article.slug?.current,
+    title: getLocalizedValue(article.title, locale),
+    section: article.section.slug.current,
+    id: article._id,
+  }));
+
+  console.log('articles_sanitized', articles, articles_sanitized);
+
   return (
     <main>
 
@@ -13,8 +44,9 @@ export default function SectionPage({ params }: { params: { locale: string } }) 
         <GridSection
           title="Notícias"
           cols={3}
-          items={["1col", "2col", "3col", "4col", "5col", "6col"]}
-          color="bg-green-200"
+          items={articles_sanitized}
+          color="bg-green-200"          
+          locale={locale}
         />
       </section>
 
@@ -23,7 +55,7 @@ export default function SectionPage({ params }: { params: { locale: string } }) 
         <GridSection
           title="Trabalho"
           cols={4}
-          items={["1col", "2col", "3col", "4col"]}
+          items={articles_sanitized || []}
           color="bg-blue-200"
         />
       </section>
@@ -41,7 +73,7 @@ export default function SectionPage({ params }: { params: { locale: string } }) 
               {[1, 2, 3, 4].map((n) => (
                 <Card
                   key={n}
-                  article={{ title: n.toString(), section: col.title }}
+                  article={articles_sanitized[n]}
                   variant="horizontal"
                   className="mb-4"
                 />
@@ -64,7 +96,7 @@ export default function SectionPage({ params }: { params: { locale: string } }) 
                 {["1col", "2col"].map((label, index) => (
                   <Card
                     key={index}
-                    article={{ title: label, section: col.title }}
+                    article={articles_sanitized[index]}
                   />
                 ))}
               </div>
@@ -78,7 +110,7 @@ export default function SectionPage({ params }: { params: { locale: string } }) 
         <GridSection
           title="Podcasts"
           cols={4}
-          items={["1col", "2col", "3col", "4col"]}
+          items={articles_sanitized || []}
           color="bg-red-200"
         />
       </section>

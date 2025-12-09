@@ -1,11 +1,3 @@
-import React from "react";
-
-interface SectionLayoutProps {
-  col1Content?: React.ReactNode;
-  col2Content?: React.ReactNode[];
-  height?: string;
-}
-
 export default function NewsBanner() {
   return (
     <section className="container mx-auto p-4">

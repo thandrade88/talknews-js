@@ -5,11 +5,12 @@ import Link from 'next/link';
 import Navigation from './Navigation';
 import { ArrowUp } from 'lucide-react';
 
-export default function Footer({ locale }: { locale: string }) {
+export default function Footer({ locale, sections }: { locale: string, sections: any[] }) {
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => {
-    if (window.pageYOffset > 300) {
+    console.log(window.pageYOffset);
+    if (window.pageYOffset > 30) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
@@ -39,7 +40,7 @@ export default function Footer({ locale }: { locale: string }) {
             </Link>
           </div>
           <div className="flex-grow">
-            <Navigation locale={locale} extraClasses="justify-end" />
+            <Navigation locale={locale} extraClasses="justify-end" sections={sections}/>
           </div>
         </div>
 

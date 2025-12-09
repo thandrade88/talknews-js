@@ -4,7 +4,7 @@ import Card from "@/components/Card";
 
 export default async function SectionPage({ params }: { params: { section: string, locale: string } }) {
 
-  const { section, locale } = await params;
+  const { section } = await params;
 
   return (
     <main>
