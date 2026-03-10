@@ -53,7 +53,7 @@ export default async function LocaleLayout({children, params}: Props) {
 
   return (
     <html lang={locale}>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+      <body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
         <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <Header locale={locale} sections={sections} />

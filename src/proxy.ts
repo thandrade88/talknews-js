@@ -1,30 +1,24 @@
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
-import { getToken } from 'next-auth/jwt';
-import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from 'next-auth/middleware';
+import { NextFetchEvent, NextRequest } from 'next/server';
 
 const intlMiddleware = createMiddleware(routing);
 
-export default async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+const adminMiddleware = withAuth({
+  pages: {
+    signIn: '/login',
+  },
+  callbacks: {
+    authorized: ({ token }) => !!token,
+  },
+});
 
-  // Protect /admin routes — redirect to /login if no valid session token
-  if (pathname.startsWith('/admin')) {
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
-
-    if (!token) {
-      const loginUrl = new URL('/login', request.url);
-      loginUrl.searchParams.set('callbackUrl', pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-
-    return NextResponse.next();
+export default function middleware(request: NextRequest, event: NextFetchEvent) {
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    return adminMiddleware(request as any, event);
   }
 
-  // Run i18n middleware for all public routes
   return intlMiddleware(request);
 }
 
