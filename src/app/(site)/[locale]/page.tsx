@@ -32,7 +32,7 @@ export default async function SectionPage({ params }: { params: { locale: string
     id: article._id,
   }));
 
-  console.log('articles_sanitized', articles, articles_sanitized);
+  // console.log('articles_sanitized', articles, articles_sanitized);
 
   return (
     <main>
