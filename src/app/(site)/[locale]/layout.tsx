@@ -1,14 +1,15 @@
 import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/routing';
+import {routing} from '@/i18n/__routing';
 import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import "./../../styles/globals.css";
+import "./../../../styles/globals.css";
 import { client } from '@/lib/sanity.client';
 import { getArticles } from '@/lib/queries';
+import  Providers from './../../providers';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,12 +53,14 @@ export default async function LocaleLayout({children, params}: Props) {
 
   return (
     <html lang={locale}>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header locale={locale} sections={sections} />
-          {children}
-          <Footer locale={locale} sections={sections}/>
-        </NextIntlClientProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <Providers>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <Header locale={locale} sections={sections} />
+            {children}
+            <Footer locale={locale} sections={sections}/>
+          </NextIntlClientProvider>
+        </Providers>
       </body>
     </html>
   );
