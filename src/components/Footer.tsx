@@ -8,8 +8,7 @@ import { ArrowUp } from 'lucide-react';
 export default function Footer({ locale, sections }: { locale: string, sections: any[] }) {
   const [isVisible, setIsVisible] = useState(false);
 
-  const toggleVisibility = () => {
-    console.log(window.pageYOffset);
+  const toggleVisibility = () => {   
     if (window.pageYOffset > 30) {
       setIsVisible(true);
     } else {
