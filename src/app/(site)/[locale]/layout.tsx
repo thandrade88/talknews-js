@@ -1,7 +1,7 @@
 import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/__routing';
+import {routing} from '@/i18n/routing';
 import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
 import Header from '@/components/Header';
